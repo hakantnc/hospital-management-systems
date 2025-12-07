@@ -1,20 +1,152 @@
-﻿/* Set padding to keep content from hitting the edges */
-.body-content {
-    margin-top: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
+﻿
+body {
+    background-color: #f4f7f6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.jumbotron.hero-section {
+    background-image: url('../Content/Images/hastane.png');
+    background-size: cover;
+    background-position: center;
+    color: black; 
+    padding-top: 80px;
+    padding-bottom: 80px;
+    margin-bottom: 40px;
+    border-radius: 0 0 20px 20px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+.hero-section h1 {
+    font-weight: 700;
+    font-size: 3.5em;
+    margin-bottom: 20px;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.hero-buttons .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-weight: 600;
 }
+
+.section-title {
+    color: #0056b3;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.separator {
+    width: 100px;
+    border-top: 3px solid #0056b3;
+    margin-bottom: 40px;
+}
+
+.service-box {
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+    .service-box:hover {
+        transform: translateY(-5px);
+    }
+
+.icon-circle {
+    background-color: #0056b3;
+    color: white;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    line-height: 80px;
+    font-size: 30px;
+    margin: 0 auto 20px auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.service-box h3 {
+    font-weight: 600;
+    color: #333;
+}
+
+.cta-section {
+    background-color: #f8f9fa;
+    padding: 50px 0;
+    margin-top: 50px;
+    border-top: 1px solid #ddd;
+}
+.navbar-inverse {
+    background-color: #0056b3;
+    border-color: #004494;
+    transition: all 0.4s ease-in-out;
+}
+.navbar-scrolled {
+    background-color: #003366; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+    opacity: 0.95;
+    padding-top: 5px; 
+    padding-bottom: 5px;
+}
+.fade-in {
+    opacity: 0; 
+    transform: translateY(30px); 
+    transition: all 0.8s ease-out;
+}
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0); 
+}
+.navbar-inverse .navbar-brand, 
+.navbar-inverse .navbar-nav > li > a {
+    color: #ffffff;
+}
+.navbar-nav > li {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.navbar-nav > li > a {
+        text-decoration: none ;
+        font-weight: 500;
+        font-size: 15px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+}
+
+    .navbar-nav > li > a:hover,
+    .navbar-nav > li > a:focus {
+        text-decoration: none;
+        background-color: transparent;
+        color: #ffd700 ;
+    }
+.navbar-brand {
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none !important;
+}
+
+.form-horizontal {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    margin-top: 20px;
+}
+
+h2 {
+    color: #0056b3;
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #0056b3;
+    border-color: #004a99;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+    .btn-primary:hover {
+        background-color: #004494;
+    }
+
+.form-control {
+    border-radius: 4px;
+    height: 45px; 
+}
+

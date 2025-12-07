@@ -9,6 +9,37 @@ namespace HospitalSystem.Data
 {
     public class HospitalContext : DbContext
     {
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Appointment>()
+                .HasRequired(a => a.Patient)
+                .WithMany(p => p.Appointments)
+                .HasForeignKey(a => a.PatientID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Appointment>()
+                .HasRequired(a => a.Doctor)
+                .WithMany(d => d.Appointments)
+                .HasForeignKey(a => a.DoctorID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<MedicalRecord>()
+                .HasRequired(m => m.Patient)
+                .WithMany() 
+                .HasForeignKey(m => m.PatientID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<MedicalRecord>()
+                .HasRequired(m => m.Doctor)
+                .WithMany()
+                .HasForeignKey(m => m.DoctorID)
+                .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+
+
         public HospitalContext() : base("name=HospitalDBConnection")
         {
         }

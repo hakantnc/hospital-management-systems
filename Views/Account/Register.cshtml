@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Kayıt Ol";
+}
+
+<h2>Hasta Kayıt Formu</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Hesap Bilgileri</h4>
+            <hr />
+            <div class="form-group">
+                <label>Email Adresi</label>
+                <input type="email" name="user.Email" class="form-control" value="@(Request.Form["user.Email"])" required />
+
+                @Html.ValidationMessage("user.Email", "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" name="user.PasswordHash" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Kişisel Bilgiler</h4>
+            <hr />
+            <div class="form-group">
+                <label>Ad</label>
+                <input type="text" name="patient.FirstName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Soyad</label>
+                <input type="text" name="patient.LastName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Doğum Tarihi</label>
+                <input type="date" name="patient.DateOfBirth" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label>Cinsiyet</label>
+                <select name="patient.Gender" class="form-control">
+                    <option value="Erkek">Erkek</option>
+                    <option value="Kadın">Kadın</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Telefon</label>
+                <input type="text" name="patient.PhoneNumber" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>Adres</label>
+                <textarea name="patient.Address" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-0 col-md-12">
+            <input type="submit" value="Kayıt Ol" class="btn btn-primary" />
+        </div>
+    </div>
+}

@@ -1,33 +1,70 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Anasayfa";
 }
 
-<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+<div class="jumbotron hero-section">
+    <div class="container text-center">
+        <h1>Sağlığınız Emin Ellerde</h1>
+        <p class="lead">Grup 24 Hastane Yönetim Sistemi ile randevularınızı kolayca yönetin, uzman doktorlarımıza anında ulaşın.</p>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+        <div class="hero-buttons">
+            @if (Session["UserID"] == null)
+            {
+                <a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-lg">Giriş Yap / Randevu Al</a>
+            }
+            else
+            {
+                <a href="@Url.Action("Create", "Appointments")" class="btn btn-primary btn-lg">Hemen Randevu Al</a>
+            }
+
+            <a href="@Url.Action("About", "Home")" class="btn btn-default btn-lg">Hakkımızda</a>
+        </div>
     </div>
-</main>
+</div>
+
+<div class="row services-section">
+    <div class="col-md-12 text-center">
+        <h2 class="section-title">Hizmetlerimiz</h2>
+        <hr class="separator" />
+    </div>
+
+    <div class="col-md-3 col-sm-6 text-center service-box fade-in">
+        <div class="icon-circle">
+            <i class="glyphicon glyphicon-calendar"></i>
+        </div>
+        <h3>Online Randevu</h3>
+        <p>İstediğiniz poliklinik ve doktordan saniyeler içinde randevunuzu oluşturun.</p>
+    </div>
+
+    <div class="col-md-3 col-sm-6 text-center service-box fade-in">
+        <div class="icon-circle">
+            <i class="glyphicon glyphicon-user"></i>
+        </div>
+        <h3>Uzman Doktorlar</h3>
+        <p>Alanında deneyimli hekim kadromuzla en iyi sağlık hizmetini sunuyoruz.</p>
+    </div>
+
+    <div class="col-md-3 col-sm-6 text-center service-box fade-in">
+        <div class="icon-circle">
+            <i class="glyphicon glyphicon-stats"></i>
+        </div>
+        <h3>Hasta Takibi</h3>
+        <p>Geçmiş randevularınızı, tahlil sonuçlarınızı ve teşhislerinizi tek panelden izleyin.</p>
+    </div>
+
+    <div class="col-md-3 col-sm-6 text-center service-box fade-in">
+        <div class="icon-circle">
+            <i class="glyphicon glyphicon-plus"></i>
+        </div>
+        <h3>İlaç Yönetimi</h3>
+        <p>Doktorunuzun yazdığı reçeteleri ve ilaç kullanım talimatlarını görüntüleyin.</p>
+    </div>
+</div>
+
+<div class="row cta-section">
+    <div class="col-md-12 text-center">
+        <h3>Sorularınız mı var?</h3>
+        <p>7/24 Destek hattımız ve uzman ekibimizle yanınızdayız.</p>
+        <a href="@Url.Action("Contact", "Home")" class="btn btn-success">Bize Ulaşın</a>
+    </div>
+</div>

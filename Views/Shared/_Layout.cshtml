@@ -3,23 +3,39 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    <title>@ViewBag.Title - Hastane Yönetim Sistemi</title>
+    
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
         <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            @Html.ActionLink("Hastane Yönetim Sistemi", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Anasayfa", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Hakkımızda", "About", "Home")</li>
+                    <li>@Html.ActionLink("İletişim", "Contact", "Home")</li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    @if (Session["UserID"] == null)
+                    {
+                        <li>@Html.ActionLink("Kayıt Ol", "Register", "Account")</li>
+                        <li>@Html.ActionLink("Giriş Yap", "Login", "Account")</li>
+                    }
+                    else
+                    {
+                        <li><a href="#">Merhaba, @Session["UserEmail"]</a></li>
+                        <li>@Html.ActionLink("Çıkış Yap", "Logout", "Account")</li>
+                    }
                 </ul>
             </div>
         </div>
@@ -34,6 +50,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/Site.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
