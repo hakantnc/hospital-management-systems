@@ -34,7 +34,7 @@ namespace HospitalSystem.Controllers
                     return View();
                 }
                 using (var transaction = db.Database.BeginTransaction())
-                { 
+                {
                     try
                     {
                         user.Role = "Patient";
@@ -53,10 +53,10 @@ namespace HospitalSystem.Controllers
                     catch
                     {
                         transaction.Rollback();
-                        ViewBag.ErrorMessage = "Registration failed. Please try again.";
+                        ViewBag.ErrorMessage = "Kayıt Hatalı. Lütfen Tekrar Deneyiniz.";
                     }
-    
-                
+
+
                 }
 
             }
@@ -65,6 +65,49 @@ namespace HospitalSystem.Controllers
         public ActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string Email, string Password)
+        {
+            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+            {
+                ViewBag.Error = "Lütfen email ve şifrenizi giriniz.";
+                return View();
+            }
+            string hashedPassword = PasswordHelper.ComputeSha256Hash(Password);
+            var user = db.Users.FirstOrDefault(u => u.Email == Email && u.PasswordHash == hashedPassword);
+
+            if (user != null)
+            {
+                Session["UserID"] = user.UserID;
+                Session["UserEmail"] = user.Email;
+                Session["UserRole"] = user.Role;
+                if (user.Role == "Admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else if (user.Role == "Doctor")
+                {
+                    return RedirectToAction("Index", "Doctor");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                ViewBag.Error = "Email adresi veya şifre hatalı.";
+                return View();
+            }
+        }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+            return RedirectToAction("Login");
         }
     }
 }

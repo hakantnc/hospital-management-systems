@@ -4,14 +4,15 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .jumbotron.hero-section {
-    background-image: url('../Content/Images/hastane.png');
+    background-image: url('../Content/Images/hospital.jpg');
     background-size: cover;
     background-position: center;
     color: black; 
     padding-top: 80px;
     padding-bottom: 80px;
     margin-bottom: 40px;
-    border-radius: 0 0 20px 20px;
+    margin-top: 50px;
+    border-radius: 20px ;
 }
 
 .hero-section h1 {
