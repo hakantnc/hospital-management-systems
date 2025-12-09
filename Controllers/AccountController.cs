@@ -33,6 +33,11 @@ namespace HospitalSystem.Controllers
                     ModelState.AddModelError("user.Email", "Bu mail adresi zaten kullanımda. Lütfen başka bir mail deneyin veya giriş yapın.");
                     return View();
                 }
+                if (db.Users.Any(u => u.TCKN == user.TCKN))
+                {
+                    ModelState.AddModelError("user.TCKN", "Bu TC Kimlik Numarası zaten kayıtlı.");
+                    return View();
+                }
                 using (var transaction = db.Database.BeginTransaction())
                 {
                     try

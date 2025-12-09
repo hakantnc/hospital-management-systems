@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "Yeni Doktor Ekle";
+}
+
+<h2>Yeni Doktor Ekle (Admin Paneli)</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+@if (ViewBag.Success != null)
+{
+    <div class="alert alert-success">@ViewBag.Success</div>
+}
+
+@using (Html.BeginForm("AddDoctor", "Admin", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Doktor Kimlik Bilgileri</h4>
+            <hr />
+
+            <div class="form-group">
+                <label>Ad</label>
+                <input type="text" name="user.FirstName" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label>Soyad</label>
+                <input type="text" name="user.LastName" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="user.Email" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" name="user.PasswordHash" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label>TC Kimlik No</label>
+                <input type="text" name="user.TCKN" class="form-control" required maxlength="11" />
+            </div>
+
+            <div class="form-group">
+                <label>Telefon</label>
+                <input type="text" name="user.Phone" class="form-control" maxlength="11" placeholder="05xxxxxxxxx" />
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <h4>Mesleki Bilgiler</h4>
+            <hr />
+
+            <div class="form-group">
+                <label>Poliklinik / Bölüm</label>
+                @if (ViewBag.DepartmentList != null)
+                {
+                    @Html.DropDownList("doctor.DepartmentID", (SelectList)ViewBag.DepartmentList, "Bölüm Seçiniz", new { @class = "form-control", required = "required" })
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        Sistemde kayıtlı bölüm bulunamadı. Lütfen veritabanına bölüm ekleyin.
+                    </div>
+                }
+            </div>
+
+            <div class="form-group">
+                <label>Uzmanlık Alanı (Branş)</label>
+                <input type="text" name="doctor.Specialization" class="form-control" placeholder="Örn: Kardiyoloji Uzmanı" required />
+            </div>
+
+            <div class="form-group">
+                <label>Diploma Numarası</label>
+                <input type="text" name="doctor.LicenseNumber" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label>Özgeçmiş / Biyografi</label>
+                <textarea name="doctor.Biography" class="form-control" rows="4"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" style="margin-top:20px;">
+        <button type="submit" class="btn btn-success btn-lg btn-block">
+            <i class="glyphicon glyphicon-floppy-disk"></i> Doktoru Kaydet
+        </button>
+    </div>
+}

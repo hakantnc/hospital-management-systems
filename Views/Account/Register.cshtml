@@ -9,52 +9,77 @@
     <div class="alert alert-danger">@ViewBag.Error</div>
 }
 
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="row">
         <div class="col-md-6">
-            <h4>Hesap Bilgileri</h4>
+            <h4>Hesap ve Kimlik Bilgileri</h4>
             <hr />
+
             <div class="form-group">
                 <label>Email Adresi</label>
-                <input type="email" name="user.Email" class="form-control" value="@(Request.Form["user.Email"])" required />
-
+                <input type="email" name="user.Email" class="form-control" required />
                 @Html.ValidationMessage("user.Email", "", new { @class = "text-danger" })
             </div>
+
             <div class="form-group">
                 <label>Şifre</label>
                 <input type="password" name="user.PasswordHash" class="form-control" required />
+                @Html.ValidationMessage("user.PasswordHash", "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <label>TC Kimlik Numarası</label>
+                <input type="text" name="user.TCKN" class="form-control" maxlength="11" required />
+                @Html.ValidationMessage("user.TCKN", "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="col-md-6">
             <h4>Kişisel Bilgiler</h4>
             <hr />
+
             <div class="form-group">
                 <label>Ad</label>
-                <input type="text" name="patient.FirstName" class="form-control" required />
+                <input type="text" name="user.FirstName" class="form-control" required />
+                @Html.ValidationMessage("user.FirstName", "", new { @class = "text-danger" })
             </div>
+
             <div class="form-group">
                 <label>Soyad</label>
-                <input type="text" name="patient.LastName" class="form-control" required />
+                <input type="text" name="user.LastName" class="form-control" required />
+                @Html.ValidationMessage("user.LastName", "", new { @class = "text-danger" })
             </div>
+
             <div class="form-group">
                 <label>Doğum Tarihi</label>
-                <input type="date" name="patient.DateOfBirth" class="form-control" required />
+                <input type="date" name="user.DateOfBirth" class="form-control" required />
+                @Html.ValidationMessage("user.DateOfBirth", "", new { @class = "text-danger" })
             </div>
+
             <div class="form-group">
                 <label>Cinsiyet</label>
-                <select name="patient.Gender" class="form-control">
+                <select name="user.Gender" class="form-control">
+                    <option value="">Seçiniz</option>
                     <option value="Erkek">Erkek</option>
                     <option value="Kadın">Kadın</option>
                 </select>
+                @Html.ValidationMessage("user.Gender", "", new { @class = "text-danger" })
             </div>
+
             <div class="form-group">
                 <label>Telefon</label>
-                <input type="text" name="patient.PhoneNumber" class="form-control" />
+                <input type="text" name="user.Phone" class="form-control"maxlength="11" placeholder="05xxxxxxxxx" />
+                @Html.ValidationMessage("user.Phone", "", new { @class = "text-danger" })
             </div>
+
             <div class="form-group">
                 <label>Adres</label>
                 <textarea name="patient.Address" class="form-control"></textarea>
@@ -62,9 +87,9 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-0 col-md-12">
-            <input type="submit" value="Kayıt Ol" class="btn btn-primary" />
+    <div class="form-group" style="margin-top:20px;">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Kayıt Ol</button>
         </div>
     </div>
 }

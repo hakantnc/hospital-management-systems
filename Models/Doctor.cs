@@ -9,25 +9,17 @@ namespace HospitalSystem.Models
 {
     public class Doctor
     {
-        [Key]
-        public int DoctorID { get; set; }
-
-
+        [Key, ForeignKey("User")]
         public int UserID { get; set; }
-        [ForeignKey("UserID")]
+  
         public virtual User User { get; set; }
         public int DepartmentID { get; set; }
         [ForeignKey("DepartmentID")]
         public virtual Department Department { get; set; }
 
-        [Required]
-        public string FirstName { get; set; }
-        [Required]
-        public string LastName { get; set; } 
 
         public string Specialization { get; set; } 
         public string LicenseNumber { get; set; } 
-        public string PhoneNumber { get; set; }
         public string Biography { get; set; } 
 
         public virtual ICollection<Appointment> Appointments { get; set; }
