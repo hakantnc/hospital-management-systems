@@ -1,0 +1,98 @@
+﻿@model HospitalSystem.Models.Appointment
+
+@{
+    ViewBag.Title = "Randevu Al";
+}
+
+<h2>Yeni Randevu Oluştur</h2>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Poliklinik</label>
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentID", null, "Seçiniz...", new { @class = "form-control", @id = "DepartmentDropdown" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Doktor</label>
+            <div class="col-md-10">
+                <select id="DoctorID" name="DoctorID" class="form-control" disabled>
+                    <option>Önce Poliklinik Seçiniz</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.DoctorID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AppointmentDateTime, "Tarih ve Saat", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.AppointmentDateTime, "{0:yyyy-MM-ddTHH:mm}", new { @class = "form-control", @type = "datetime-local" })
+                @Html.ValidationMessageFor(model => model.AppointmentDateTime, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Reason, "Şikayetiniz", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Reason, new { @class = "form-control", @rows = "3" })
+                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Randevu Oluştur" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Listeye Dön", "Index")
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#DepartmentDropdown").change(function () {
+                var deptId = $(this).val();
+                var doctorSelect = $("#DoctorID");
+
+                doctorSelect.empty();
+                doctorSelect.append('<option>Yükleniyor...</option>');
+                doctorSelect.prop('disabled', true);
+
+                if (deptId) {
+                    $.ajax({
+                        url: '/Appointments/GetDoctorByDepartment',
+                        type: 'GET',
+                        data: { departmentId: deptId },
+                        success: function (data) {
+                            doctorSelect.empty();
+                            doctorSelect.append('<option value="">Doktor Seçiniz</option>');
+
+                            $.each(data, function (index, item) {
+                                doctorSelect.append($('<option>', {
+                                    value: item.Value,
+                                    text: item.Text
+                                }));
+                            });
+                            doctorSelect.prop('disabled', false);
+                        }
+                    });
+                } else {
+                    doctorSelect.empty();
+                    doctorSelect.append('<option>Önce Poliklinik Seçiniz</option>');
+                }
+            });
+        });
+    </script>
+}

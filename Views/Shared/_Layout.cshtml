@@ -4,10 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Hastane Yönetim Sistemi</title>
-    
+
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
-    
+
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -33,7 +33,15 @@
                     }
                     else
                     {
-                        <li><a href="#">Merhaba</a></li>
+                        if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Patient")
+                        {
+                            <li>@Html.ActionLink("Randevularım", "Index", "Appointments")</li>
+                            <li>@Html.ActionLink("Randevu Al", "Create", "Appointments")</li>
+                        }
+                        if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Doctor")
+                        {
+                            <li>@Html.ActionLink("Doktor Paneli", "Index", "Doctor")</li>
+                        }
                         <li>@Html.ActionLink("Çıkış Yap", "Logout", "Account")</li>
                     }
                 </ul>
@@ -44,7 +52,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Hastane Yönetim Sistemi</p>
         </footer>
     </div>
 

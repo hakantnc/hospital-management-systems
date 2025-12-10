@@ -118,6 +118,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AppointmentsController.cs" />
+    <Compile Include="Controllers\DoctorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Data\HospitalContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -136,6 +138,10 @@
     <Compile Include="Migrations\202512090725162_Admin.cs" />
     <Compile Include="Migrations\202512090725162_Admin.Designer.cs">
       <DependentUpon>202512090725162_Admin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202512101855202_InitialCreate1.cs" />
+    <Compile Include="Migrations\202512101855202_InitialCreate1.Designer.cs">
+      <DependentUpon>202512101855202_InitialCreate1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Appointment.cs" />
@@ -204,6 +210,9 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Admin\AddDoctor.cshtml" />
+    <Content Include="Views\Appointments\Index.cshtml" />
+    <Content Include="Views\Appointments\Create.cshtml" />
+    <Content Include="Views\Doctor\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -218,6 +227,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202512090725162_Admin.resx">
       <DependentUpon>202512090725162_Admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202512101855202_InitialCreate1.resx">
+      <DependentUpon>202512101855202_InitialCreate1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
