@@ -42,7 +42,6 @@ namespace HospitalSystem.Controllers
 
             return View(appointments);
 
-            return View();
         }
     }
 }

@@ -1,0 +1,111 @@
+﻿@model IEnumerable<HospitalSystem.Models.Doctor>
+
+@{
+    ViewBag.Title = "Admin Paneli";
+}
+<style>
+    .body-content {
+        width: 90%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .custom-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="page-header">Yönetim Paneli (Dashboard)</h2>
+    </div>
+</div>
+
+<div class="row text-center">
+    <div class="col-md-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Top. Doktor</div>
+            <div class="panel-body">
+                <h3>@ViewBag.TotalDoctors</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-success">
+            <div class="panel-heading">Top. Hasta</div>
+            <div class="panel-body">
+                <h3>@ViewBag.TotalPatients</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">Top. Randevu</div>
+            <div class="panel-body">
+                <h3>@ViewBag.TotalAppointments</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="panel panel-warning">
+            <div class="panel-heading">Aktif Randevular</div>
+            <div class="panel-body">
+                <h3>@ViewBag.ActiveAppointments</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-12">
+            <a href="@Url.Action("Index", "Departments")" class="btn btn-info btn-lg">
+                <i class="glyphicon glyphicon-th-list"></i> Bölümleri Yönet
+            </a>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <h3>
+            Sisteme Son Eklenen Doktorlar
+            <a href="@Url.Action("AddDoctor", "Admin")" class="btn btn-success pull-right">
+                <i class="glyphicon glyphicon-plus"></i> Yeni Doktor Ekle
+            </a>
+        </h3>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>Email</th>
+                    <th>Bölüm</th>
+                    <th>Telefon</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.User.FirstName @item.User.LastName</td>
+                        <td>@item.User.Email</td>
+                        <td>@(item.Department != null ? item.Department.DepartmentName : "-")</td>
+                        <td>@item.User.Phone</td>
+                        <td>
+                            @using (Html.BeginForm("DeleteDoctor", "Admin", new { id = item.UserID }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('@item.User.FirstName @item.User.LastName isimli doktoru silmek istediğinize emin misiniz?');">
+                                    <i class="glyphicon glyphicon-trash"></i> Sil
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

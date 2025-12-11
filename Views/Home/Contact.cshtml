@@ -1,19 +1,165 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "İletişim";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <address>
-        One Microsoft Way<br />
-        Redmond, WA 98052-6399<br />
-        <abbr title="Phone">P:</abbr>
-        425.555.0100
-    </address>
+<style>
+    .body-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+    .custom-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+</style>
 
-    <address>
-        <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-        <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-    </address>
-</main>
+<section class="page-header">
+    <div class="custom-container">
+        <h1>İletişim</h1>
+        <p>Size nasıl yardımcı olabiliriz?</p>
+    </div>
+</section>
+
+<section class="contact-info">
+    <div class="custom-container">
+        <div class="info-grid">
+            <div class="info-card fade-up">
+                <div class="info-icon">📞</div>
+                <h3>Telefon</h3>
+                <p>+90 545 767 47 31</p>
+            </div>
+            <div class="info-card fade-up">
+                <div class="info-icon">📧</div>
+                <h3>E-posta</h3>
+                <p>info@hastane.com</p>
+                <p>destek@hastane.com</p>
+            </div>
+            <div class="info-card fade-up">
+                <div class="info-icon">📍</div>
+                <h3>Adres</h3>
+                <p>Kültür Üniversitesi</p>
+                <p>Ataköy, İstanbul</p>
+            </div>
+            <div class="info-card fade-up">
+                <div class="info-icon">🕐</div>
+                <h3>Çalışma Saatleri</h3>
+                <p>Hafta içi: 08:00 - 18:00</p>
+                <p>Cumartesi: 09:00 - 15:00</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact-form-section">
+    <div class="custom-container">
+        <div class="contact-grid">
+
+            <div class="form-info fade-up">
+                <h2>Bize Ulaşın</h2>
+                <p>Sorularınız, önerileriniz veya geri bildirimleriniz için lütfen formu doldurun. En kısa sürede size geri dönüş yapacağız.</p>
+                <div class="quick-info">
+                    <div class="quick-info-item">
+                        <span>✓</span>
+                        <p>24 saat içinde yanıt</p>
+                    </div>
+                    <div class="quick-info-item">
+                        <span>✓</span>
+                        <p>Profesyonel destek ekibi</p>
+                    </div>
+                    <div class="quick-info-item">
+                        <span>✓</span>
+                        <p>Güvenli iletişim</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-container fade-up">
+
+                @if (ViewBag.Success != null)
+                {
+                    <div class="alert alert-success">@ViewBag.Success</div>
+                }
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { id = "contactForm" }))
+                {
+                    <div class="form-group">
+                        <label for="name">Ad Soyad *</label>
+                        <input type="text" id="name" name="name" required placeholder="Adınız Soyadınız">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">E-posta *</label>
+                        <input type="email" id="email" name="email" required placeholder="ornek@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Konu *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Seçiniz</option>
+                            <option value="Randevu">Randevu</option>
+                            <option value="Bilgi">Bilgi Talebi</option>
+                            <option value="Şikayet">Şikayet</option>
+                            <option value="Öneri">Öneri</option>
+                            <option value="Diğer">Diğer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Mesajınız *</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Mesajınızı buraya yazınız..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Gönder</button>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="map-section">
+    <div class="custom-container">
+        <h2 class="text-center" style="margin-bottom: 30px; color: #2c3e50;">Konumumuz</h2>
+        <div class="map-container fade-up">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.650490017129!2d28.83156837644917!3d40.98909107135314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa36257529b25%3A0xc3634017367d3020!2zxLBzdGFuYnVsIEvDvGx0w7xyIMOcbml2ZXJzaXRlc2k!5e0!3m2!1str!2str!4v1700000000000!5m2!1str!2str"
+                    width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#5b6fb5';
+                this.parentElement.style.transform = 'translateX(5px)';
+                this.parentElement.style.transition = 'transform 0.3s';
+            });
+            input.addEventListener('blur', function() {
+                this.style.borderColor = '#e0e0e0';
+                this.parentElement.style.transform = 'translateX(0)';
+            });
+        });
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(element => {
+            observer.observe(element);
+        });
+    });</script>

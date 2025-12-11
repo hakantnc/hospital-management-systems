@@ -1,0 +1,52 @@
+﻿@model HospitalSystem.Models.MedicalRecord
+
+@{
+    ViewBag.Title = "Muayene Kaydı";
+}
+
+<h2>Muayene Kaydı ve Teşhis</h2>
+<h4>Hasta: <span class="text-primary">@ViewBag.PatientName</span></h4>
+<hr />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.HiddenFor(model => model.AppointmentID)
+        @Html.HiddenFor(model => model.PatientID)
+        @Html.HiddenFor(model => model.DoctorID)
+        @Html.HiddenFor(model => model.VisitDate)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Belirtiler (Symptoms)</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Symptoms, new { @class = "form-control", @rows = "3", placeholder = "Hastanın şikayetleri..." })
+                @Html.ValidationMessageFor(model => model.Symptoms, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Teşhis (Diagnosis)</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Diagnosis, new { @class = "form-control", @rows = "2", placeholder = "Konulan teşhis..." })
+                @Html.ValidationMessageFor(model => model.Diagnosis, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Doktor Notları</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.DoctorNotes, new { @class = "form-control", @rows = "3" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-success">
+                    <i class="glyphicon glyphicon-save"></i> Kaydet ve Reçete Yaz
+                </button>
+            </div>
+        </div>
+    </div>
+}

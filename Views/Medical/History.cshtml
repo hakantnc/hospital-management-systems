@@ -1,0 +1,84 @@
+﻿@model IEnumerable<HospitalSystem.Models.MedicalRecord>
+
+@{
+    ViewBag.Title = "Tıbbi Geçmişim";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="text-primary"><i class="glyphicon glyphicon-time"></i> Tıbbi Geçmişim</h2>
+        <p class="lead">Geçmiş muayeneleriniz, konulan teşhisler ve reçeteleriniz.</p>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        @if (!Model.Any())
+        {
+            <div class="alert alert-info text-center" style="padding: 30px;">
+                <h4><i class="glyphicon glyphicon-info-sign"></i> Kayıt Bulunamadı</h4>
+                <p>Henüz sistemde kayıtlı bir muayene geçmişiniz bulunmamaktadır.</p>
+                <a href="@Url.Action("Create", "Appointments")" class="btn btn-primary">Randevu Al</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover table-striped table-bordered shadow-box">
+                    <thead style="background-color: #f5f5f5;">
+                        <tr>
+                            <th width="15%">Tarih</th>
+                            <th width="20%">Doktor & Bölüm</th>
+                            <th width="25%">Teşhis</th>
+                            <th width="25%">Doktor Notu</th>
+                            <th width="15%">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <strong>@item.VisitDate.ToString("dd.MM.yyyy")</strong>
+                                </td>
+                                <td>
+                                    Dr. @(item.Doctor?.User?.FirstName + " " + item.Doctor?.User?.LastName)
+                                    <br />
+                                    <small class="text-muted">
+                                        @(item.Doctor?.Department?.DepartmentName ?? "Bölüm Yok")
+                                    </small>
+                                </td>
+                                <td>
+                                    <span class="text-danger" style="font-weight:bold;">
+                                        @item.Diagnosis
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.DoctorNotes) && item.DoctorNotes.Length > 50)
+                                    {
+                                        @item.DoctorNotes.Substring(0, 50)<text>...</text>
+                                    }
+                                    else
+                                    {
+                                        @item.DoctorNotes
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Medical", new { id = item.RecordID })" class="btn btn-info btn-sm btn-block">
+                                        <i class="glyphicon glyphicon-list-alt"></i> Reçeteyi Gör
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

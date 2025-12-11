@@ -1,0 +1,44 @@
+﻿@model HospitalSystem.Models.Department
+
+@{
+    ViewBag.Title = "Yeni Bölüm Ekle";
+}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Yeni Poliklinik Ekle</h3>
+            </div>
+            <div class="panel-body">
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label>Bölüm Adı</label>
+                        @Html.EditorFor(model => model.DepartmentName, new { htmlAttributes = new { @class = "form-control", placeholder = "Örn: Dermatoloji", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.DepartmentName, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Açıklama (Opsiyonel)</label>
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = "3", placeholder = "Bölüm hakkında kısa bilgi..." })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block">Kaydet</button>
+                        <a href="@Url.Action("Index")" class="btn btn-link btn-block">Listeye Dön</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

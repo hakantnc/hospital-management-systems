@@ -33,8 +33,13 @@
                     }
                     else
                     {
+                        if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Admin")
+                        {
+                            <li>@Html.ActionLink("Admin Paneli", "Index", "Admin")</li>
+                        }
                         if (Session["UserRole"] != null && Session["UserRole"].ToString() == "Patient")
                         {
+                            <li>@Html.ActionLink("Tıbbi Geçmişim", "History", "Medical")</li>
                             <li>@Html.ActionLink("Randevularım", "Index", "Appointments")</li>
                             <li>@Html.ActionLink("Randevu Al", "Create", "Appointments")</li>
                         }

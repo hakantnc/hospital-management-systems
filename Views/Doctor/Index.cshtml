@@ -85,9 +85,13 @@
                                         }
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary btn-xs">
-                                            <i class="glyphicon glyphicon-folder-open"></i> Dosyayı Aç
-                                        </button>
+                                        @if (item.Status == "İptal")
+                                        {<span class="label label-danger">İptal</span>}
+                                        else {<a href="@Url.Action("Create", "Medical", new { appointmentId = item.AppointmentID })" class="btn btn-primary btn-xs">
+                                                    <i class="glyphicon glyphicon-folder-open"></i> Dosyayı Aç
+                                                </a>
+                                        }
+                                        
                                     </td>
                                 </tr>
                             }

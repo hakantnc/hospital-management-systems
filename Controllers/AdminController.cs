@@ -4,10 +4,9 @@ using HospitalSystem.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Data.Entity;
+using Microsoft.Win32;
 
 namespace HospitalSystem.Controllers
 {
@@ -15,10 +14,15 @@ namespace HospitalSystem.Controllers
     {
         HospitalContext db = new HospitalContext();
 
-        public ActionResult AddDoctor()
+        private void LoadDepartments()
         {
             List<Department> departments = db.Departments.ToList();
             ViewBag.DepartmentList = new SelectList(departments, "DepartmentID", "DepartmentName");
+        }
+        public ActionResult AddDoctor()
+        {
+            if (Session["UserRole"]?.ToString() != "Admin") return RedirectToAction("Login", "Account");
+            LoadDepartments();
             return View();
         }
 
@@ -26,23 +30,29 @@ namespace HospitalSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddDoctor(User user, Doctor doctor)
         {
+            if (Session["UserRole"]?.ToString() != "Admin") return RedirectToAction("Login", "Account");
+
             ModelState.Remove("user.Role");
             ModelState.Remove("doctor.User");
             ModelState.Remove("doctor.UserID");
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                if(db.Users.Any(u => u.Email == user.Email))
+                if (db.Users.Any(u => u.Email == user.Email))
                 {
                     ViewBag.Error = "Bu Email zaten kayıtlı.";
+                    LoadDepartments();
                     return View();
                 }
-                if(db.Users.Any(u => u.TCKN == user.TCKN))
+
+
+                if (db.Users.Any(u => u.TCKN == user.TCKN))
                 {
                     ViewBag.Error = "Bu TC Kimlik Numarası zaten kayıtlı.";
+                    LoadDepartments();
                     return View();
-
                 }
+
                 using (var transaction = db.Database.BeginTransaction())
                 {
                     try
@@ -59,8 +69,11 @@ namespace HospitalSystem.Controllers
                         db.SaveChanges();
 
                         transaction.Commit();
+
                         ViewBag.Success = "Doktor başarıyla sisteme eklendi.";
                         ModelState.Clear();
+
+                        LoadDepartments();
                         return View();
                     }
                     catch (Exception ex)
@@ -69,16 +82,40 @@ namespace HospitalSystem.Controllers
                         ViewBag.Error = "Hata oluştu: " + ex.Message;
                     }
                 }
-                    ViewBag.DepartmentList = new SelectList("DepartmentID", "DepartmentName");
-                
             }
+            LoadDepartments();
             return View();
         }
+
         public ActionResult Index()
         {
-            var doctors = db.Doctors.Include(d => d.User).ToList();
-            return View(doctors);
+            if (Session["UserRole"]?.ToString() != "Admin") return RedirectToAction("Login", "Account");
+
+            ViewBag.TotalDoctors = db.Doctors.Count();
+            ViewBag.TotalPatients = db.Patients.Count();
+            ViewBag.TotalAppointments = db.Appointments.Count();
+            ViewBag.ActiveAppointments = db.Appointments.Count(a => a.Status == "Aktif");
+
+            var recentDoctors = db.Doctors.Include(d => d.User).OrderByDescending(d => d.UserID).Take(5).ToList();
+
+            return View(recentDoctors);
         }
-            
+        
+        public ActionResult DeleteDoctor(int id)
+        {
+            if (Session["UserRole"]?.ToString() != "Admin") return RedirectToAction("Login", "Account");
+            var doctor = db.Doctors.Find(id);
+            if (doctor != null)
+            {
+                var user = db.Users.Find(doctor.UserID);
+                db.Doctors.Remove(doctor);
+                if (user != null) db.Users.Remove(user);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+
+        }
+
+        
     }
 }

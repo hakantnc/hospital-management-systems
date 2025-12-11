@@ -87,5 +87,20 @@ namespace HospitalSystem.Controllers
             return View(appointment);
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Cancel(int id)
+        {
+            if (Session["UserID"] == null) return RedirectToAction("Login", "Account");
+            int currentUserId = (int)Session["UserID"];
+            var appointment = db.Appointments.Find(id);
+
+            if (appointment != null && appointment.PatientID == currentUserId && appointment.AppointmentDateTime > DateTime.Now)
+                {
+                appointment.Status = "İptal";
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -49,9 +49,30 @@
                     </td>
                     <td>@item.Reason</td>
                     <td>
-                        @if (item.AppointmentDateTime > DateTime.Now && item.Status != "İptal")
+                        @if (item.AppointmentDateTime > DateTime.Now && item.Status != "İptal" && item.Status != "Tamamlandı")
                         {
-                            <button class="btn btn-danger btn-xs">İptal Et</button>
+                            using (Html.BeginForm("Cancel", "Appointments", new { id = item.AppointmentID }, FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Bu randevuyu iptal etmek istediğinize emin misiniz?');">
+                                    <i class="glyphicon glyphicon-remove"></i> İptal Et
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            if (item.Status == "İptal")
+                            {
+                                <span class="text-muted"><i class="glyphicon glyphicon-ban-circle"></i> İptal Edildi</span>
+                            }
+                            else if (item.Status == "Tamamlandı")
+                            {
+                                <span class="text-success"><i class="glyphicon glyphicon-check"></i> Tamamlandı</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Süresi Geçti</span>
+                            }
                         }
                     </td>
                 </tr>
