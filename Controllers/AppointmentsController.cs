@@ -46,7 +46,7 @@ namespace HospitalSystem.Controllers
         public JsonResult GetDoctorByDepartment(int departmentId) { 
         
             var doctors = db.Doctors
-                            .Where(d => d.DepartmentID == departmentId)
+                            .Where(d => d.DepartmentID == departmentId && d.User.Role == "Doctor")
                             .Include("User")
                             .Select(d => new
                             {

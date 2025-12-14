@@ -4,8 +4,9 @@
     ViewBag.Title = "Randevu Al";
 }
 
-<h2>Yeni Randevu Oluştur</h2>
-<hr />
+<div class="container" style="padding-top: 30px;">
+    <h2>Yeni Randevu Oluştur</h2>
+    <hr />
 
 @using (Html.BeginForm())
 {
@@ -55,8 +56,9 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Listeye Dön", "Index")
+    <div>
+        @Html.ActionLink("Listeye Dön", "Index")
+    </div>
 </div>
 
 @section Scripts {

@@ -1,24 +1,31 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hastane Yönetim Sistemi - Online randevu, uzman doktorlar ve hasta takibi">
     <title>@ViewBag.Title - Hastane Yönetim Sistemi</title>
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap & Custom CSS -->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/Site.css" rel="stylesheet" />
 
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             @Html.ActionLink("Hastane Yönetim Sistemi", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+            
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMain">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar navbar-inverse navbar-fixed-top">
+
+            <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Anasayfa", "Index", "Home")</li>
                     <li>@Html.ActionLink("Hakkımızda", "About", "Home")</li>
@@ -29,7 +36,11 @@
                     @if (Session["UserID"] == null)
                     {
                         <li>@Html.ActionLink("Kayıt Ol", "Register", "Account")</li>
-                        <li>@Html.ActionLink("Giriş Yap", "Login", "Account")</li>
+                        <li>
+                            <a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-sm" style="margin-left: 10px; padding: 8px 20px;">
+                                Giriş Yap
+                            </a>
+                        </li>
                     }
                     else
                     {
@@ -47,23 +58,102 @@
                         {
                             <li>@Html.ActionLink("Doktor Paneli", "Index", "Doctor")</li>
                         }
-                        <li>@Html.ActionLink("Çıkış Yap", "Logout", "Account")</li>
+                        <li>
+                            <a href="@Url.Action("Logout", "Account")" class="btn btn-outline-light btn-sm" style="margin-left: 10px; padding: 8px 20px; border: 1px solid rgba(255,255,255,0.3);">
+                                Çıkış Yap
+                            </a>
+                        </li>
                     }
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Hastane Yönetim Sistemi</p>
-        </footer>
-    </div>
 
+    <!-- Main Content -->
+    <main class="body-content">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year Hastane Yönetim Sistemi. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script src="~/Scripts/Site.js"></script>
     @RenderSection("scripts", required: false)
+
+    <style>
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(8, 145, 178, 0.4);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(8, 145, 178, 0.5);
+        }
+
+        /* Ripple Effect */
+        .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @@keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Spinner for buttons */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @@keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </body>
 </html>
