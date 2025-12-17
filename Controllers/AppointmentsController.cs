@@ -12,7 +12,7 @@ namespace HospitalSystem.Controllers
     public class AppointmentsController : Controller
     {
         HospitalContext db = new HospitalContext();
-        // GET: Appointments
+
         public ActionResult Index()
         {
             if (Session["UserID"] == null)
@@ -27,14 +27,14 @@ namespace HospitalSystem.Controllers
                                  .Include(a => a.Doctor)
                                  .Include(a => a.Doctor.User)
                                  .Include(a => a.Doctor.Department)
-                                 .OrderByDescending(a => a.AppointmentDateTime) //en yenisini en üste getirmek için
+                                 .OrderByDescending(a => a.AppointmentDateTime)
                                  .ToList();
 
             return View(appointments);
         }
 
         public ActionResult Create()
-            {
+        {
             if (Session["UserID"] == null)
             {
                 return RedirectToAction("Login", "Account");
@@ -43,8 +43,8 @@ namespace HospitalSystem.Controllers
             return View();
         }
 
-        public JsonResult GetDoctorByDepartment(int departmentId) { 
-        
+        public JsonResult GetDoctorByDepartment(int departmentId)
+        {
             var doctors = db.Doctors
                             .Where(d => d.DepartmentID == departmentId && d.User.Role == "Doctor")
                             .Include("User")
@@ -56,51 +56,58 @@ namespace HospitalSystem.Controllers
                             .ToList();
             return Json(doctors, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Appointment appointment)
         {
             if (Session["UserID"] == null) return RedirectToAction("Login", "Account");
+
             appointment.PatientID = (int)Session["UserID"];
             appointment.Status = "Aktif";
 
-            if(appointment.AppointmentDateTime < DateTime.Now)
+            if (appointment.AppointmentDateTime < DateTime.Now)
             {
-                ModelState.AddModelError("", "Geçmiş Bir Tarihe Randevu Alamazsınız.");
+                ModelState.AddModelError("", "Geçmiş bir tarihe randevu alamazsınız.");
             }
+
             bool isBusy = db.Appointments.Any(
                 a => a.DoctorID == appointment.DoctorID
-                &&
-                a.AppointmentDateTime == appointment.AppointmentDateTime && a.Status != "İptal");
-        
-            if(isBusy)
+                && a.AppointmentDateTime == appointment.AppointmentDateTime
+                && a.Status != "İptal");
+
+            if (isBusy)
             {
-                ModelState.AddModelError("", "Seçtiğiniz Saatte Doktorun Başka Randevusu Var.");
+                ModelState.AddModelError("", "Seçtiğiniz saatte doktorun başka randevusu var.");
             }
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.DepartmentID = new SelectList(db.Departments, "DepartmentID", "DepartmentName");
-            return View(appointment);
 
+            ViewBag.DepartmentID = new SelectList(db.Departments, "DepartmentID", "DepartmentName", appointment.Doctor?.DepartmentID);
+            return View(appointment);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Cancel(int id)
         {
             if (Session["UserID"] == null) return RedirectToAction("Login", "Account");
+
             int currentUserId = (int)Session["UserID"];
             var appointment = db.Appointments.Find(id);
 
             if (appointment != null && appointment.PatientID == currentUserId && appointment.AppointmentDateTime > DateTime.Now)
-                {
+            {
                 appointment.Status = "İptal";
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
         }
     }
+
 }

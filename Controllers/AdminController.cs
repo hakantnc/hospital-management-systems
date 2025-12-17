@@ -130,9 +130,9 @@ namespace HospitalSystem.Controllers
                 .Select(d => new
                  {
                      FullName = d.User.FirstName + " " +d.User.LastName,
-                     Branch = d.Department.DepartmentName,
-                     Phone =d.User.Phone ?? "Belirtilmedi",
-                     UserID = d.UserID
+                    Branch = d.Department != null ? d.Department.DepartmentName : "Belirtilmedi",
+                    Phone =d.User.Phone ?? "Belirtilmedi",
+                     d.UserID
                  }).ToList();
             return Json(doctors, JsonRequestBehavior.AllowGet);
         }
