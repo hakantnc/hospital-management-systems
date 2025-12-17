@@ -116,6 +116,27 @@ namespace HospitalSystem.Controllers
 
         }
 
+        [HttpGet]
+        public JsonResult SearchDoctor(string searchTerm)
+        {
+            if (Session["UserRole"]?.ToString()!="Admin")
+                return Json(null, JsonRequestBehavior.AllowGet);
+            if(string.IsNullOrEmpty(searchTerm))
+            {
+                return Json(new List<object>(), JsonRequestBehavior.AllowGet);
+            }
+            var doctors = db.Doctors.Include(d => d.User)
+                .Where(d => d.User.FirstName.Contains(searchTerm) || d.User.LastName.Contains(searchTerm))
+                .Select(d => new
+                 {
+                     FullName = d.User.FirstName + " " +d.User.LastName,
+                     Branch = d.Department.DepartmentName,
+                     Phone =d.User.Phone ?? "Belirtilmedi",
+                     UserID = d.UserID
+                 }).ToList();
+            return Json(doctors, JsonRequestBehavior.AllowGet);
+        }
+
         
     }
 }
